@@ -10,7 +10,7 @@ public class Solution {
 	static int half;
 	static int[][] arr;
 	static int count;
-	static List<Integer> index1, index2;
+	static List<Integer> index1;
 	static int min;
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -28,37 +28,40 @@ public class Solution {
 			half = N/2;
 			min = Integer.MAX_VALUE;
 			index1 = new ArrayList<Integer>();
-			index2 = new ArrayList<Integer>();
-			deli(0,0,index1,index2);
+			deli(0,0,index1);
 			System.out.println("#"+tc+" "+min);
 		
 		}	
 	}
-	static void deli(int idx, int count, List<Integer> index1, List<Integer> index2) {
-		
+	static void deli(int idx, int count, List<Integer> index1) {
+		if(count == half) {
+			List<Integer> index2 = new ArrayList<>();
+            for(int i=0;i<N;i++) {
+            	if(!index1.contains(i)) {
+            		index2.add(i);
+            	}
+            }
+            int sum1 =0;
+			int sum2 =0;
+			for(int i=0;i<half;i++) {
+				for(int j=0;j<half;j++) {
+					if(i==j) continue;
+						sum1 += arr[index1.get(i)][index1.get(j)];
+						sum2 += arr[index2.get(i)][index2.get(j)];
+				}
+			}
+			int si = Math.abs(sum1-sum2);
+			if(si<min) {
+				min = si;
+			}
+			return;
+		}
 		if(idx==N) {
-			if(count == half) {
-				int sum1 =0;
-				int sum2 =0;
-				for(int i=0;i<half;i++) {
-					for(int j=0;j<half;j++) {
-						if(i==j) continue;
-							sum1 += arr[index1.get(i)][index1.get(j)];
-							sum2 += arr[index2.get(i)][index2.get(j)];
-					}
-				}
-				int si = Math.abs(sum1-sum2);
-				if(si<min) {
-					min = si;
-				}
-				return;
-			} else return;
+			return;
 		}
 		index1.add(idx);
-		deli(idx+1,count+1, index1, index2);
+		deli(idx+1,count+1, index1);
 		index1.remove(index1.size()-1);
-		index2.add(idx);
-		deli(idx+1,count, index1, index2);
-		index2.remove(index2.size()-1);
+		deli(idx+1,count, index1);
 }
 }
