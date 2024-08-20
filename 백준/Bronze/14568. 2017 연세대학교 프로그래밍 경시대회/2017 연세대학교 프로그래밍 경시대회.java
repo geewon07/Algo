@@ -1,7 +1,6 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+
+import java.util.*;
+import java.io.*;
 
 public class Main {
 
@@ -11,14 +10,14 @@ public class Main {
 
         int answer = 0 ;
 
-        for(int i=1;i<N/2;i++) {
-            int count = 2;
-            while(count+i<=N-1) {
-                int b = N - i - (i+count);
-                if(b >= 1 && b %2 == 0) {
+        for(int 택희=1;택희<N+1;택희++) {
+            for(int 영훈=1;영훈<N+1;영훈++) {
+                for(int 남규=1;남규<N+1;남규++) {
+                    if(택희 + 영훈+ 남규 != N ) continue;
+                    if(남규<영훈+2) continue;
+                    if(택희%2 == 1) continue;
                     answer++;
                 }
-                count++;
             }
         }
         System.out.println(answer);
