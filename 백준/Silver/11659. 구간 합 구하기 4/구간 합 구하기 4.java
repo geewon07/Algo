@@ -1,28 +1,28 @@
+
 import java.util.*;
 import java.io.*;
 
-class Main {
-	static int[] array;
-	public static void main(String[] args) throws IOException {
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st=new StringTokenizer(br.readLine());
-		int n=Integer.parseInt(st.nextToken());
-		int m=Integer.parseInt(st.nextToken());
-		
-		st=new StringTokenizer(br.readLine());
-		array=new int[n+1];
-		for(int i=1;i<=n;i++) { // i까지의 누적합 구하기
-			array[i]=array[i-1]+Integer.parseInt(st.nextToken());
-		}
-		
-		for(int i=0;i<m;i++) {
-			st=new StringTokenizer(br.readLine());
-			int a=Integer.parseInt(st.nextToken());
-			int b=Integer.parseInt(st.nextToken());
-			// a, b사이의 구간합은 array[b]-array[a-1]과 같다
-			System.out.println(array[b]-array[a-1]);
-		}
-	}
-	
-	
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());;
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+        int[] psum = new int[n+1];
+        st = new StringTokenizer(br.readLine());
+
+        for(int i=1;i<n+1;i++) {
+            int c = Integer.parseInt(st.nextToken());
+            psum[i] = psum[i-1] + c;
+        }
+
+        for(int i=0;i<m;i++) {
+            st = new StringTokenizer(br.readLine());
+            int f = Integer.parseInt(st.nextToken());
+            int l = Integer.parseInt(st.nextToken());
+
+            System.out.println(psum[l]-psum[f-1]);
+        }
+    }
 }
