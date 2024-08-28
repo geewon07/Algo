@@ -1,42 +1,38 @@
-import java.util.*;
-import java.io.*;
+import java.util.Scanner;
 
 public class Main {
-    public static void main (String [] args) throws IOException{
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+    static int N, K;
+    static int[][] stats;
 
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        K = sc.nextInt();
+        stats = new int[N][3];
+        int min = Integer.MAX_VALUE;
 
-        int [][] info = new int [N][3];
-
-        for(int i = 0; i<N; i++){
-            st = new StringTokenizer(br.readLine());
-            info[i][0] = Integer.parseInt(st.nextToken());
-            info[i][1] = Integer.parseInt(st.nextToken());
-            info[i][2] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) {
+            stats[i][0] = sc.nextInt();
+            stats[i][1] = sc.nextInt();
+            stats[i][2] = sc.nextInt();
         }
 
-        int min = Integer.MAX_VALUE; 
-        for(int i = 0; i<N; i++){ 
-            for(int j = 0; j<N; j++){
-                for(int q = 0; q<N; q++){
-                    int cnt = 0; 
-                    for(int w = 0; w<N; w++){ 
-                        if((info[i][0] >= info[w][0]) && (info[j][1] >= info[w][1]) && (info[q][2] >= info[w][2])){ // 이길때
-                            cnt ++; 
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                for (int k = 0; k < N; k++) {
+                    int cnt = 0;
+
+                    for (int n = 0; n < N; n++) {
+                        if (stats[i][0] >= stats[n][0] && stats[j][1] >= stats[n][1] && stats[k][2] >= stats[n][2]) {
+                            cnt++;
                         }
                     }
-                    if(cnt >= K){ 
-                        int sum = info[i][0] + info[j][1] + info[q][2]; 
-                        if(min > sum) { 
-                            min = sum;
-                        }
-                    }
+
+                    if (cnt >= K) min = Math.min(min, stats[i][0] + stats[j][1] + stats[k][2]);
                 }
             }
         }
+
         System.out.println(min);
     }
 }
