@@ -1,27 +1,24 @@
-import java.io.*;
+
 import java.util.*;
+import java.io.*;
 
 public class Main {
 
-    public static void main(String args[]) throws IOException {
-
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        String answer;
 
-        int N = Integer.parseInt(br.readLine());
-
-        for(int i=0;i<N;i++) {
-            Long num = Long.parseLong(br.readLine());
-
-            for(int j=2;j<= 1000000;j++) {
-                if(num % j == 0) {
-                    System.out.println("NO");
+        for(int i=0;i<n;i++) {
+            answer = "YES";
+            long s = Long.parseLong(br.readLine());
+            for(int j=2;j<=1000000;j++) {
+                if(s % j == 0) {
+                    answer = "NO";
                     break;
                 }
-                if(j == 1000000) {
-                    System.out.println("YES");
-                }
             }
+            System.out.println(answer);
         }
-
     }
 }
