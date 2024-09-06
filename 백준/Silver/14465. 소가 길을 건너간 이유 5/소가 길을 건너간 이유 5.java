@@ -1,41 +1,35 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+
+import java.util.*;
+import java.io.*;
 
 public class Main {
-	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	static StringBuilder sb = new StringBuilder();
-	static StringTokenizer st;
-	
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int K = Integer.parseInt(st.nextToken());
-		int B = Integer.parseInt(st.nextToken());
+    // 투포인터
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+        int b = Integer.parseInt(st.nextToken());
+        int[] arr = new int[n+2];
 
-		boolean[] arr = new boolean[N+1]; // false면 정상 true면 고장
-		int cnt = 0;
-		for(int i = 0; i < B; i++) {
-			int num =  Integer.parseInt(br.readLine());
-			if(num < K+1) cnt++;
-			arr[num] = true;
-		}
-		
-		int ptr1 = 1;
-		int ptr2 = K;
-		int min = K;
-		while(ptr2 < N) {
-			if(!arr[ptr1] && arr[ptr2+1]) {
-				cnt++;
-			}else if(arr[ptr1] && !arr[ptr2+1]) {
-				cnt--;
-			}
-			min = cnt < min ? cnt : min;
-			ptr1++;
-			ptr2++;
-		}
-		System.out.println(min);
-	}
+        for(int i=0;i<b;i++) {
+            arr[Integer.parseInt(br.readLine())] = 1;
+        }
+
+        int answer = Integer.MAX_VALUE;
+        int s = 1;
+        int e = 1;
+        int cnt = arr[e];
+
+        while(s<=e && e<n+1) {
+            int len = (e+1) - s;
+            if(len == k) {
+                answer = Math.min(answer,cnt);
+                if(arr[s++] == 1) cnt--;
+            }
+            if(arr[++e] == 1) cnt++;
+        }
+
+        System.out.println(answer);
+    }
 }
