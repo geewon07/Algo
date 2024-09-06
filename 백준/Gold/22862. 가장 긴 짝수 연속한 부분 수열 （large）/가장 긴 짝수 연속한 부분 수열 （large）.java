@@ -1,46 +1,37 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
-class Main {
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st; 
-		
-		st = new StringTokenizer(br.readLine());
-		int N = Integer.parseInt(st.nextToken());
-		int K = Integer.parseInt(st.nextToken());
-		
-		int[] arr = new int[N];
-		st = new StringTokenizer(br.readLine());
-		for(int i=0;i<N;i++) {
-			arr[i] = Integer.parseInt(st.nextToken());
-		}
-		
-		int ans = 0;
-        int i = 0; // 짝수 수열의 시작 지점
-        int j = 0; // 짝수 수열의 현재 지점
-        int cnt = 0;
-        
-        while (j < N) {
-            if (cnt < K) {
-                if (arr[j] % 2 != 0) {
-                	cnt++;
-                }
-                j++;
-                ans = Math.max(j - i - cnt, ans); 
-            } else if (arr[j] % 2 == 0) {
-                j++;
-                ans = Math.max(j - i - cnt, ans);
-            } else {
-                if (arr[i] % 2 != 0) {
-                	cnt--;
-                }
-                i++;
-            }
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    // 투포인터
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
+        int[] arr = new int[n+1];
+
+        st = new StringTokenizer(br.readLine());
+        for(int i=0;i<n;i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        System.out.println(ans);
+        int s = 0;
+        int e = 0;
+        int answer = 0;
+        int cnt = 0;
+
+        while(s<=e && e<n) {
+            if(cnt > k) {
+                if(arr[s] % 2 == 1) cnt --;
+                s++;
+            }else {
+                if(arr[e] %2 == 1) cnt++;
+                e++;
+            }
+            answer = Math.max(answer, e-s-cnt);
+        }
+
+        System.out.println(answer);
     }
 }
