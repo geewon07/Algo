@@ -3,62 +3,38 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-
 public class Main {
-    static StringBuilder sb = new StringBuilder();
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
         int[] arr = new int[1001];
-        int start = Integer.MAX_VALUE;
-        int end = 0;
-        for (int i = 0; i < N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            int L = Integer.parseInt(st.nextToken());
-            int H = Integer.parseInt(st.nextToken());
-            arr[L] = H;
-            start = Math.min(L, start);
-            end = Math.max(L, end);
+        StringTokenizer st;
+        for(int i=0;i<n;i++) {
+            st = new StringTokenizer(br.readLine());
+            int l = Integer.parseInt(st.nextToken());
+            int h = Integer.parseInt(st.nextToken());
+            arr[l] = h;
         }
 
-        Stack<Integer> height = new Stack<>();
-        //왼쪽 비교
-        int temp = arr[start];
-        for (int i = start + 1; i <= end; i++) {
-            if(arr[i] < temp)  { 
-                height.push(i); 
-            }
-            else {
-                while (!height.isEmpty()) {
-                    int x = height.pop(); 
-                    arr[x] = temp; 
-                }
-                temp = arr[i];
-            }
+        int[] leftMax = new int[1002];
+        int[] rightMax = new int[1002];
+
+        for(int i=1;i<1001;i++) {
+            leftMax[i] = Math.max(leftMax[i-1],arr[i]);
         }
-        height.clear();
-
-
-
-        //오른쪽 비교
-        temp=arr[end];
-        for(int i = end - 1; i >= start; i--){
-            if(arr[i] < temp) height.push(i);
-            else {
-                while (!height.isEmpty()) {
-                    int x = height.pop();
-                    arr[x]=temp;
-                }
-                temp=arr[i];
-            }
+        for(int i=1000;i>=0;i--) {
+            rightMax[i] = Math.max(rightMax[i+1],arr[i]);
         }
 
-        int result = 0;
-        for (int i = start; i <= end; i++) {
-            result += arr[i];
+        int answer = 0;
+
+        for(int i=1;i<1001;i++ ) {
+            answer += Math.min(rightMax[i],leftMax[i]);
         }
 
-        sb.append(result).append("\n");
-        System.out.print(sb);
+        System.out.println(answer);
+
     }
+
 }
